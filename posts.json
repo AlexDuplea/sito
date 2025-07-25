@@ -5,5 +5,13 @@
         "date": "2025-07-25",
         "category": "thoughts",
         "content": "Nothing crazy just the first post"
+    },
+    {
+        "id": 2,
+        "title": "My First Post",
+        "date": "2025-07-25",
+        "category": "coding",
+        "content": "I'm currently learning how rendering works for a personal project. In short, I want to experiment with building a sort of engine or at least a modular system that can take instructions and render output in the terminal with perspective. The math involved isn't too difficult, but it definitely requires study. Honestly, I'm a bit surprised that this is the only topic the professor completely skipped in the course."
+        
     }
 ]

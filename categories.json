@@ -1,0 +1,6 @@
+[
+    { "id": "university", "name": "University" },
+    { "id": "coding", "name": "Coding" },
+    { "id": "life", "name": "Life" },
+    { "id": "thoughts", "name": "Thoughts" }
+]

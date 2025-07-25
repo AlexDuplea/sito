@@ -1,0 +1,111 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alex Duplea</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="apple-touch-icon" sizes="180x180" href="icone/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="icone/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="icone/favicon-16x16.png">
+    <link rel="manifest" href="icone/site.webmanifest">
+
+<body>
+    <!-- Home Page -->
+    <div id="home-page">
+        <h1>Alex Duplea</h1>
+        
+        <nav>
+            <a href="#" onclick="showPage('blog')">Blog</a>
+            <a href="#" onclick="showPage('cv')">CV</a>
+            <a href="#" onclick="showPage('info')">Info</a>
+        </nav>
+        
+        <div class="center-image">
+            <img src="skyline.jpg" alt="Rome Skyline" width="600" height="300" style="background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #666;">
+        </div>
+        
+        <div class="info-section">
+            <div class="info-item" id="rome-time">
+                Current time in Rome: <span id="time-display">Loading...</span>
+            </div>
+            <div class="info-item" id="rome-weather">
+                <span id="weather-display">Loading weather...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Blog Page -->
+    <div id="blog-page" class="hidden">
+        <h1><a href="#" onclick="showPage('home')" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
+        
+        <nav>
+            <a href="#" onclick="showPage('home')">Home</a>
+            <a href="#" onclick="showPage('cv')">CV</a>
+            <a href="#" onclick="showPage('info')">Info</a>
+        </nav>
+        
+        <h2>Blog</h2>
+        
+        <div class="category-filter">
+            <button onclick="filterPosts('all')" class="active" id="filter-all">All</button>
+            <button onclick="filterPosts('university')" id="filter-university">University</button>
+            <button onclick="filterPosts('coding')" id="filter-coding">Coding</button>
+            <button onclick="filterPosts('life')" id="filter-life">Life</button>
+            <button onclick="filterPosts('thoughts')" id="filter-thoughts">Thoughts</button>
+        </div>
+        
+        <div class="post-list" id="post-list">
+            <!-- Posts will be loaded here -->
+        </div>
+    </div>
+
+    <!-- CV Page -->
+    <div id="cv-page" class="hidden">
+        <h1><a href="#" onclick="showPage('home')" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
+        
+        <nav>
+            <a href="#" onclick="showPage('home')">Home</a>
+            <a href="#" onclick="showPage('blog')">Blog</a>
+            <a href="#" onclick="showPage('info')">Info</a>
+        </nav>
+        
+        <h2>CV</h2>
+        <div class="page-content">
+            This page is under construction.
+        </div>
+    </div>
+
+    <!-- Info Page -->
+    <div id="info-page" class="hidden">
+        <h1><a href="#" onclick="showPage('home')" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
+        
+        <nav>
+            <a href="#" onclick="showPage('home')">Home</a>
+            <a href="#" onclick="showPage('blog')">Blog</a>
+            <a href="#" onclick="showPage('cv')">CV</a>
+        </nav>
+        
+        <h2>Info</h2>
+        <div class="page-content">
+            This page is under construction.
+        </div>
+    </div>
+
+    <!-- Post Page -->
+    <div id="post-page" class="hidden">
+        <h1><a href="#" onclick="showPage('home')" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
+        
+        <nav>
+            <a href="#" onclick="showPage('home')">Home</a>
+            <a href="#" onclick="showPage('blog')">Blog</a>
+            <a href="#" onclick="showPage('cv')">CV</a>
+            <a href="#" onclick="showPage('info')">Info</a>
+        </nav>
+        
+        <div id="post-content">
+            <!-- Individual post content will be loaded here -->
+        </div>
+    </div>
+    <script src="script.js"></script>
+  </body>
+</html>

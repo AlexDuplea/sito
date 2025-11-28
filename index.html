@@ -2,22 +2,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Personal website of Alex Duplea - Blog, CV, and Info.">
     <title>Alex Duplea</title>
     <link rel="stylesheet" href="style.css">
     <link rel="apple-touch-icon" sizes="180x180" href="icone/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="icone/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="icone/favicon-16x16.png">
     <link rel="manifest" href="icone/site.webmanifest">
-
+</head>
 <body>
     <!-- Home Page -->
-    <div id="home-page">
+    <div id="home-page" class="page">
         <h1>Alex Duplea</h1>
         
         <nav>
-            <a href="#" onclick="showPage('blog')">Blog</a>
-            <a href="#" onclick="showPage('cv')">CV</a>
-            <a href="#" onclick="showPage('info')">Info</a>
+            <a href="#" data-page="blog">Blog</a>
+            <a href="#" data-page="cv">CV</a>
+            <a href="#" data-page="info">Info</a>
         </nav>
         
         <div class="center-image">
@@ -35,23 +36,23 @@
     </div>
 
     <!-- Blog Page -->
-    <div id="blog-page" class="hidden">
-        <h1><a href="#" onclick="showPage('home')" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
+    <div id="blog-page" class="page hidden">
+        <h1><a href="#" data-page="home" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
         
         <nav>
-            <a href="#" onclick="showPage('home')">Home</a>
-            <a href="#" onclick="showPage('cv')">CV</a>
-            <a href="#" onclick="showPage('info')">Info</a>
+            <a href="#" data-page="home">Home</a>
+            <a href="#" data-page="cv">CV</a>
+            <a href="#" data-page="info">Info</a>
         </nav>
         
         <h2>Blog</h2>
         
         <div class="category-filter">
-            <button onclick="filterPosts('all')" class="active" id="filter-all">All</button>
-            <button onclick="filterPosts('university')" id="filter-university">University</button>
-            <button onclick="filterPosts('coding')" id="filter-coding">Coding</button>
-            <button onclick="filterPosts('life')" id="filter-life">Life</button>
-            <button onclick="filterPosts('thoughts')" id="filter-thoughts">Thoughts</button>
+            <button data-filter="all" class="active" id="filter-all">All</button>
+            <button data-filter="university" id="filter-university">University</button>
+            <button data-filter="coding" id="filter-coding">Coding</button>
+            <button data-filter="life" id="filter-life">Life</button>
+            <button data-filter="thoughts" id="filter-thoughts">Thoughts</button>
         </div>
         
         <div class="post-list" id="post-list">
@@ -60,13 +61,13 @@
     </div>
 
     <!-- CV Page -->
-    <div id="cv-page" class="hidden">
-        <h1><a href="#" onclick="showPage('home')" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
+    <div id="cv-page" class="page hidden">
+        <h1><a href="#" data-page="home" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
         
         <nav>
-            <a href="#" onclick="showPage('home')">Home</a>
-            <a href="#" onclick="showPage('blog')">Blog</a>
-            <a href="#" onclick="showPage('info')">Info</a>
+            <a href="#" data-page="home">Home</a>
+            <a href="#" data-page="blog">Blog</a>
+            <a href="#" data-page="info">Info</a>
         </nav>
         
         <h2>CV</h2>
@@ -76,13 +77,13 @@
     </div>
 
     <!-- Info Page -->
-    <div id="info-page" class="hidden">
-        <h1><a href="#" onclick="showPage('home')" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
+    <div id="info-page" class="page hidden">
+        <h1><a href="#" data-page="home" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
         
         <nav>
-            <a href="#" onclick="showPage('home')">Home</a>
-            <a href="#" onclick="showPage('blog')">Blog</a>
-            <a href="#" onclick="showPage('cv')">CV</a>
+            <a href="#" data-page="home">Home</a>
+            <a href="#" data-page="blog">Blog</a>
+            <a href="#" data-page="cv">CV</a>
         </nav>
         
         <h2>Info</h2>
@@ -92,14 +93,14 @@
     </div>
 
     <!-- Post Page -->
-    <div id="post-page" class="hidden">
-        <h1><a href="#" onclick="showPage('home')" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
+    <div id="post-page" class="page hidden">
+        <h1><a href="#" data-page="home" style="color: #333; text-decoration: none;">Alex Duplea</a></h1>
         
         <nav>
-            <a href="#" onclick="showPage('home')">Home</a>
-            <a href="#" onclick="showPage('blog')">Blog</a>
-            <a href="#" onclick="showPage('cv')">CV</a>
-            <a href="#" onclick="showPage('info')">Info</a>
+            <a href="#" data-page="home">Home</a>
+            <a href="#" data-page="blog">Blog</a>
+            <a href="#" data-page="cv">CV</a>
+            <a href="#" data-page="info">Info</a>
         </nav>
         
         <div id="post-content">

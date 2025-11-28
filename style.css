@@ -192,6 +192,7 @@ nav a:hover {
     line-height: 1.8;
 }
 
+/* Mobile styles - 600px and below */
 @media (max-width: 600px) {
     body {
         padding: 15px;
@@ -201,19 +202,120 @@ nav a:hover {
         font-size: 2em;
     }
 
+    h2 {
+        font-size: 1.5em;
+        margin: 20px 0 15px 0;
+    }
+
+    h3 {
+        font-size: 1.2em;
+        margin: 15px 0 10px 0;
+    }
+
+    nav {
+        margin: 15px 0 30px 0;
+        padding: 0 0 15px 0;
+    }
+
     nav a {
         display: block;
-        margin: 10px 0;
+        margin: 0;
+        padding: 12px 0;
+        font-size: 1.1em;
+        text-align: center;
+    }
+
+    .info-item {
+        font-size: 1em;
+    }
+
+    .category-filter {
+        margin: 15px 0;
     }
 
     .category-filter button {
-        margin: 3px;
-        padding: 6px 12px;
+        margin: 5px 3px;
+        padding: 10px 14px;
         font-size: 0.9em;
+        min-height: 44px;
+    }
+
+    .post-item {
+        margin: 20px 0;
+        padding: 15px 0;
+    }
+
+    .post-title {
+        font-size: 1.3em;
     }
 
     .post-modal {
         margin: 0;
         padding: 0;
+    }
+
+    .page-content {
+        padding: 30px 0;
+    }
+
+    .cv-header h3 {
+        font-size: 1.3em;
+    }
+
+    .cv-contact {
+        font-size: 0.9em;
+        line-height: 1.8;
+    }
+
+    .cv-section {
+        margin: 20px 0;
+    }
+
+    .cv-item {
+        margin: 15px 0;
+    }
+
+    .cv-item-title {
+        font-size: 1em;
+        line-height: 1.5;
+    }
+
+    .cv-item-meta {
+        font-size: 0.85em;
+        line-height: 1.5;
+    }
+
+    .cv-skills {
+        line-height: 1.7;
+        font-size: 0.95em;
+    }
+}
+
+/* Extra small screens - 400px and below */
+@media (max-width: 400px) {
+    body {
+        padding: 12px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    h2 {
+        font-size: 1.4em;
+    }
+
+    nav a {
+        font-size: 1em;
+        padding: 10px 0;
+    }
+
+    .category-filter button {
+        font-size: 0.85em;
+        padding: 9px 12px;
+    }
+
+    .cv-header h3 {
+        font-size: 1.2em;
     }
 }

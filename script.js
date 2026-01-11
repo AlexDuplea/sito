@@ -19,6 +19,9 @@ async function loadData() {
         categories = await categoriesResponse.json();
         dataLoaded = true;
 
+        // Generate filter buttons from categories
+        generateFilterButtons();
+
         // Initial load of posts if we are on the blog page
         if (!document.getElementById('blog-page').classList.contains('hidden')) {
             loadPosts();
@@ -50,6 +53,8 @@ async function loadData() {
         ];
         dataLoaded = true;
 
+        generateFilterButtons();
+
         if (!document.getElementById('blog-page').classList.contains('hidden')) {
             loadPosts();
         }
@@ -59,27 +64,70 @@ async function loadData() {
 
 let currentFilter = 'all';
 
+// Show skeleton loading state
+function showSkeletonLoading() {
+    const postList = document.getElementById('post-list');
+    if (!postList) return;
+    
+    let skeletonHTML = '';
+    for (let i = 0; i < 3; i++) {
+        skeletonHTML += `
+            <div class="skeleton-post">
+                <div class="skeleton skeleton-title"></div>
+                <div class="skeleton skeleton-meta"></div>
+                <div class="skeleton skeleton-preview"></div>
+                <div class="skeleton skeleton-preview"></div>
+                <div class="skeleton skeleton-preview"></div>
+            </div>
+        `;
+    }
+    postList.innerHTML = skeletonHTML;
+}
+
 // Page navigation
-function showPage(pageName) {
+function showPage(pageName, updateHistory = true) {
     const pages = ['home', 'blog', 'cv', 'info', 'post'];
+    
+    // Fade out current page
     pages.forEach(page => {
         const el = document.getElementById(page + '-page');
-        if (el) el.classList.add('hidden');
+        if (el && !el.classList.contains('hidden')) {
+            el.style.opacity = '0';
+        }
     });
 
-    const targetPage = document.getElementById(pageName + '-page');
-    if (targetPage) {
-        targetPage.classList.remove('hidden');
-    }
+    setTimeout(() => {
+        pages.forEach(page => {
+            const el = document.getElementById(page + '-page');
+            if (el) el.classList.add('hidden');
+        });
 
-    if (pageName === 'blog') {
-        if (dataLoaded) {
-            loadPosts();
-        } else {
-            // Data will be loaded by loadData() when it finishes
-            document.getElementById('post-list').innerHTML = '<div style="text-align:center">Loading posts...</div>';
+        const targetPage = document.getElementById(pageName + '-page');
+        if (targetPage) {
+            targetPage.classList.remove('hidden');
+            targetPage.style.opacity = '0';
+            // Trigger reflow then fade in
+            requestAnimationFrame(() => {
+                targetPage.style.opacity = '1';
+            });
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-    }
+
+        // Update URL
+        if (updateHistory) {
+            const url = pageName === 'home' ? '#' : '#' + pageName;
+            history.pushState({ page: pageName }, '', url);
+        }
+
+        if (pageName === 'blog') {
+            if (dataLoaded) {
+                loadPosts();
+            } else {
+                showSkeletonLoading();
+            }
+        }
+    }, 150);
 }
 
 // Time display
@@ -137,7 +185,25 @@ function loadPosts() {
     filteredPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
 
     if (filteredPosts.length === 0) {
-        postList.innerHTML = '<div style="text-align:center; margin-top: 20px;">No posts found.</div>';
+        const emptyMessages = [
+            "The void stares back... no posts here.",
+            "Tumbleweeds roll by... nothing to see.",
+            "404: Posts not found. Have you tried turning it off and on again?",
+            "This category is emptier than my coffee cup on Monday.",
+            "No posts. The hamsters powering this blog took a break.",
+            "Plot twist: the posts were the friends we made along the way.",
+            
+            "The posts are in another castle.",
+            "Schrödinger's posts: they exist until you look for them.",
+            "INSERT POSTS HERE (TODO: write actual content)",
+            "This space intentionally left blank... or is it?",
+            "The posts went out for milk. They'll be back soon.",
+            
+            "Have you checked under the couch cushions?",
+            "The posts are on vacation. Partly cloudy there too."
+        ];
+        const randomMsg = emptyMessages[Math.floor(Math.random() * emptyMessages.length)];
+        postList.innerHTML = `<div style="text-align:center; margin-top: 20px; font-style: italic;">${randomMsg}</div>`;
         return;
     }
 
@@ -197,12 +263,16 @@ function createPostElement(post) {
 function filterPosts(category) {
     currentFilter = category;
 
-    // Update active button
+    // Update active button and aria-pressed
     document.querySelectorAll('.category-filter button').forEach(btn => {
         btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
     });
     const activeBtn = document.querySelector(`.category-filter button[data-filter="${category}"]`);
-    if (activeBtn) activeBtn.classList.add('active');
+    if (activeBtn) {
+        activeBtn.classList.add('active');
+        activeBtn.setAttribute('aria-pressed', 'true');
+    }
 
     loadPosts();
 }
@@ -216,6 +286,16 @@ function openPost(postId) {
 
     // Clear previous content
     postContent.innerHTML = '';
+
+    // Back to blog link
+    const backLink = document.createElement('a');
+    backLink.href = '#blog';
+    backLink.className = 'back-link';
+    backLink.textContent = '← Back to Blog';
+    backLink.addEventListener('click', (e) => {
+        e.preventDefault();
+        showPage('blog');
+    });
 
     const h2 = document.createElement('h2');
     h2.textContent = post.title;
@@ -235,6 +315,7 @@ function openPost(postId) {
     // If rich text is needed later, a sanitizer library should be used.
     contentDiv.textContent = post.content;
 
+    postContent.appendChild(backLink);
     postContent.appendChild(h2);
     postContent.appendChild(meta);
     postContent.appendChild(contentDiv);
@@ -256,8 +337,73 @@ function capitalizeFirst(str) {
     return str.charAt(0).toUpperCase() + str.slice(1);
 }
 
+// Generate navigation for each page
+function generateNavigation() {
+    const navConfig = {
+        'home': ['blog', 'cv', 'info'],
+        'blog': ['home', 'cv', 'info'],
+        'cv': ['home', 'blog', 'info'],
+        'info': ['home', 'blog', 'cv'],
+        'post': ['home', 'blog', 'cv', 'info']
+    };
+
+    Object.entries(navConfig).forEach(([pageId, links]) => {
+        const page = document.getElementById(pageId + '-page');
+        if (!page) return;
+        
+        const nav = page.querySelector('nav');
+        if (!nav) return;
+        
+        nav.innerHTML = links.map(link => 
+            `<a href="#${link === 'home' ? '' : link}" data-page="${link}">${capitalizeFirst(link)}</a>`
+        ).join('');
+    });
+}
+
+// Generate filter buttons from categories
+function generateFilterButtons() {
+    const filterContainer = document.querySelector('.category-filter');
+    if (!filterContainer) return;
+
+    filterContainer.innerHTML = '';
+    
+    // Add "All" button first
+    const allBtn = document.createElement('button');
+    allBtn.setAttribute('data-filter', 'all');
+    allBtn.setAttribute('aria-pressed', 'true');
+    allBtn.className = 'active';
+    allBtn.textContent = 'All';
+    filterContainer.appendChild(allBtn);
+
+    // Add category buttons from JSON
+    categories.forEach(cat => {
+        const btn = document.createElement('button');
+        btn.setAttribute('data-filter', cat.id);
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = cat.name;
+        filterContainer.appendChild(btn);
+    });
+}
+
 // Initialize
 document.addEventListener('DOMContentLoaded', async function () {
+    // Generate navigation dynamically
+    generateNavigation();
+
+    // Display last updated date from meta tag
+    const lastUpdatedMeta = document.querySelector('meta[name="last-updated"]');
+    const cvLastUpdated = document.getElementById('cv-last-updated');
+    if (lastUpdatedMeta && cvLastUpdated) {
+        const dateStr = lastUpdatedMeta.getAttribute('content');
+        const date = new Date(dateStr);
+        const formatted = date.toLocaleDateString('en-US', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+        cvLastUpdated.textContent = `Last updated: ${formatted}`;
+    }
+
     // Event Delegation for Navigation
     document.body.addEventListener('click', function (e) {
         // Handle navigation links
@@ -285,6 +431,33 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (page) {
                 e.preventDefault();
                 showPage(page);
+            }
+        }
+    });
+
+    // Handle URL hash on page load
+    const hash = window.location.hash.slice(1);
+    if (hash && ['blog', 'cv', 'info'].includes(hash)) {
+        showPage(hash, false);
+    }
+
+    // Handle browser back/forward
+    window.addEventListener('popstate', (e) => {
+        const page = e.state?.page || 'home';
+        showPage(page, false);
+    });
+
+    // Keyboard navigation - Escape to go back
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            const postPage = document.getElementById('post-page');
+            if (postPage && !postPage.classList.contains('hidden')) {
+                showPage('blog');
+            } else {
+                const currentPage = ['blog', 'cv', 'info'].find(p => 
+                    !document.getElementById(p + '-page')?.classList.contains('hidden')
+                );
+                if (currentPage) showPage('home');
             }
         }
     });

@@ -14,11 +14,26 @@ body {
     padding: 20px;
 }
 
+/* Page transitions */
+.page {
+    transition: opacity 0.15s ease-in-out;
+    opacity: 1;
+}
+
 h1 {
     text-align: center;
     font-size: 2.5em;
     margin-bottom: 30px;
     font-weight: normal;
+}
+
+h1 a.home-link {
+    color: #333;
+    text-decoration: none;
+}
+
+h1 a.home-link:hover {
+    text-decoration: underline;
 }
 
 h2 {
@@ -75,6 +90,19 @@ nav a:hover {
     text-decoration: underline;
 }
 
+.back-link {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.95em;
+}
+
+.back-link:hover {
+    color: #333;
+    text-decoration: underline;
+}
+
 .blog-container {
     margin: 30px 0;
 }
@@ -102,6 +130,53 @@ nav a:hover {
 
 .post-list {
     margin: 30px 0;
+}
+
+/* Skeleton loading animation */
+@keyframes skeleton-pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+.skeleton {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+    background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+    background-size: 200% 100%;
+}
+
+.skeleton-post {
+    margin: 30px 0;
+    padding: 20px 0;
+    border-bottom: 1px solid #eee;
+}
+
+.skeleton-title {
+    height: 1.4em;
+    width: 60%;
+    margin-bottom: 10px;
+    background: #e0e0e0;
+    border-radius: 4px;
+}
+
+.skeleton-meta {
+    height: 0.9em;
+    width: 30%;
+    margin-bottom: 15px;
+    background: #e8e8e8;
+    border-radius: 4px;
+}
+
+.skeleton-preview {
+    height: 0.9em;
+    width: 100%;
+    margin-bottom: 8px;
+    background: #f0f0f0;
+    border-radius: 4px;
+}
+
+.skeleton-preview:last-child {
+    width: 75%;
 }
 
 .post-item {
@@ -168,6 +243,13 @@ nav a:hover {
 .cv-contact {
     font-size: 0.95em;
     color: #666;
+}
+
+.cv-updated {
+    font-size: 0.85em;
+    color: #999;
+    margin-top: 10px;
+    font-style: italic;
 }
 
 .cv-section {
@@ -317,5 +399,61 @@ nav a:hover {
 
     .cv-header h3 {
         font-size: 1.2em;
+    }
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    margin-top: 60px;
+    padding: 20px 0;
+    border-top: 1px solid #ddd;
+    color: #666;
+    font-size: 0.9em;
+}
+
+/* Print styles for CV */
+@media print {
+    body {
+        max-width: 100%;
+        padding: 0;
+        font-size: 11pt;
+    }
+
+    nav, .category-filter, footer, .back-link,
+    #home-page, #blog-page, #info-page, #post-page {
+        display: none !important;
+    }
+
+    #cv-page {
+        display: block !important;
+    }
+
+    #cv-page h1 {
+        display: none;
+    }
+
+    .cv-content {
+        padding: 0;
+    }
+
+    .cv-header h3 {
+        font-size: 18pt;
+        margin-bottom: 5px;
+    }
+
+    .cv-section {
+        page-break-inside: avoid;
+    }
+
+    a {
+        color: #333;
+        text-decoration: none;
+    }
+
+    a[href^="mailto:"]::after,
+    a[href^="https://github"]::after,
+    a[href^="https://www.linkedin"]::after {
+        content: none;
     }
 }

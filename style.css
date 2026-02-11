@@ -27,6 +27,23 @@ h1 {
     font-weight: normal;
 }
 
+.page-header-row {
+    position: relative;
+}
+
+.page-header-row h1 {
+    margin-bottom: 30px;
+}
+
+.last-updated {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 0.85em;
+    color: #999;
+    font-style: italic;
+}
+
 h1 a.home-link {
     color: #333;
     text-decoration: none;
@@ -250,6 +267,18 @@ nav a:hover {
     color: #999;
     margin-top: 10px;
     font-style: italic;
+}
+
+.cv-download {
+    display: inline-block;
+    margin-top: 15px;
+    color: #333;
+    text-decoration: underline;
+    font-size: 1em;
+}
+
+.cv-download:hover {
+    color: #666;
 }
 
 .cv-section {

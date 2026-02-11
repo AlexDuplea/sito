@@ -339,23 +339,19 @@ function capitalizeFirst(str) {
 
 // Generate navigation for each page
 function generateNavigation() {
-    const navConfig = {
-        'home': ['blog', 'cv', 'info'],
-        'blog': ['home', 'cv', 'info'],
-        'cv': ['home', 'blog', 'info'],
-        'info': ['home', 'blog', 'cv'],
-        'post': ['home', 'blog', 'cv', 'info']
-    };
+    // Fixed order: Blog, CV, Info (always the same)
+    const navLinks = ['blog', 'cv', 'info'];
+    const pages = ['home', 'blog', 'cv', 'info', 'post'];
 
-    Object.entries(navConfig).forEach(([pageId, links]) => {
+    pages.forEach(pageId => {
         const page = document.getElementById(pageId + '-page');
         if (!page) return;
-        
+
         const nav = page.querySelector('nav');
         if (!nav) return;
-        
-        nav.innerHTML = links.map(link => 
-            `<a href="#${link === 'home' ? '' : link}" data-page="${link}">${capitalizeFirst(link)}</a>`
+
+        nav.innerHTML = navLinks.map(link =>
+            `<a href="#${link}" data-page="${link}">${capitalizeFirst(link)}</a>`
         ).join('');
     });
 }
@@ -392,16 +388,14 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     // Display last updated date from meta tag
     const lastUpdatedMeta = document.querySelector('meta[name="last-updated"]');
-    const cvLastUpdated = document.getElementById('cv-last-updated');
-    if (lastUpdatedMeta && cvLastUpdated) {
+    const cvLastUpdatedTop = document.getElementById('cv-last-updated-top');
+    if (lastUpdatedMeta && cvLastUpdatedTop) {
         const dateStr = lastUpdatedMeta.getAttribute('content');
         const date = new Date(dateStr);
-        const formatted = date.toLocaleDateString('en-US', { 
-            year: 'numeric', 
-            month: 'long', 
-            day: 'numeric' 
-        });
-        cvLastUpdated.textContent = `Last updated: ${formatted}`;
+        const day = String(date.getDate()).padStart(2, '0');
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const year = date.getFullYear();
+        cvLastUpdatedTop.textContent = `last updated on ${day}/${month}/${year}`;
     }
 
     // Event Delegation for Navigation
